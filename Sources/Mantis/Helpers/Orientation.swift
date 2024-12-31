@@ -8,10 +8,20 @@ import UIKit
 
 public struct Orientation {
     static var interfaceOrientation: UIInterfaceOrientation {
-        if #available(iOS 13, macOS 10.13, *) {
-            return application.windows.first?.windowScene?.interfaceOrientation ?? .portrait
+        if #available(iOS 13, macOS 10.13, visionOS 1.0, *) {
+            return UIApplication.shared.connectedScenes
+                .compactMap({ $0 as? UIWindowScene })
+                .first?
+                .interfaceOrientation ?? .portrait
         } else {
+            #if os(visionOS)
+            return UIApplication.shared.connectedScenes
+                .compactMap({ $0 as? UIWindowScene })
+                .first?
+                .interfaceOrientation ?? .portrait
+            #else
             return application.statusBarOrientation
+            #endif
         }
     }
         

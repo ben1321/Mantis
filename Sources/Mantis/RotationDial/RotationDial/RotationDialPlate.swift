@@ -103,7 +103,11 @@ final class RotationDialPlate: UIView {
             numberLayer.bounds.size = CGSize(width: 30, height: 15)
             numberLayer.fontSize = 12
             numberLayer.alignmentMode = CATextLayerAlignmentMode.center
+            #if os(visionOS)
+            numberLayer.contentsScale = 3.0
+            #else
             numberLayer.contentsScale = UIScreen.main.scale
+            #endif
             numberLayer.font = cgFont
             let angle = (index > bigDegreeScaleNumber / 2 ? index - bigDegreeScaleNumber : index) * 10
             numberLayer.string = "\(angle)"
